@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+data/
+results/
+/venv
+.vscode
+spam_classifier.pkl
+best_spam_classifier.pkl
+logistic_regression_model.pkl

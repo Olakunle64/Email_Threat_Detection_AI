@@ -1,0 +1,59 @@
+.result-box {
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-top: 25px;
+    transition: all 0.3s ease-in-out;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .spam {
+    background: linear-gradient(45deg, #ff4e50, #f9d423);
+    color: white;
+    animation: pulse 1.5s infinite alternate;
+  }
+  
+  .not-spam {
+    background: linear-gradient(45deg, #36d1dc, #5b86e5);
+    color: white;
+    animation: float 2s infinite alternate;
+  }
+  
+  .icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+  
+  .danger {
+    color: #ff3e3e;
+    text-shadow: 0 0 10px rgba(255, 62, 62, 0.7);
+  }
+  
+  .safe {
+    color: #4caf50;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+  }
+  
+  .alert-text {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .message {
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-5px); }
+  }
+  
