@@ -9,3 +9,4 @@ results/
 spam_classifier.pkl
 best_spam_classifier.pkl
 logistic_regression_model.pkl
+notebooks/processed_emails.csv
