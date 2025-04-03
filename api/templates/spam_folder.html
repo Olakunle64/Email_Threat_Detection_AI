@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Spam Folder Predictions{% endblock %}
+
+{% block content %}
+  <style>
+    body {
+      background-color: #f5f7fa;
+    }
+    .email-card {
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 1rem;
+      padding: 1rem 1.5rem;
+    }
+    .email-header {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .meta {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    .badge-spam {
+      background-color: #dc3545;
+    }
+    .badge-notspam {
+      background-color: #28a745;
+    }
+    .email-tags {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>🧾 Gmail Spam Folder Predictions</h2>
+    <a href="{{ url_for('check_spam') }}" class="btn btn-sm btn-outline-secondary">
+      ← Back to Inbox
+    </a>
+  </div>
+
+  {% for email in emails %}
+    <div class="email-card">
+      <div class="email-tags">
+        <div class="email-header">{{ email.subject }}</div>
+        {% if email.label == 1 %}
+          <span class="badge badge-spam text-white">SPAM</span>
+        {% else %}
+          <span class="badge badge-notspam text-white">NOT SPAM</span>
+        {% endif %}
+      </div>
+      <div class="meta mt-2">
+        <strong>From:</strong> {{ email.from }} <br>
+        <strong>Date:</strong> {{ email.date }}
+      </div>
+    </div>
+  {% endfor %}
+
+  {% if next_page_token %}
+    <a href="{{ url_for('show_spam_folder', page_token=next_page_token) }}" class="btn btn-outline-primary">Next Page →</a>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Spam Classifier{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #2a3d66;
+      padding: 0.75rem 1.5rem;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      color: white !important;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .navbar-brand:hover {
+      text-decoration: none;
+      color: #e0e0e0;
+    }
+
+    .navbar img {
+      height: 30px;
+      width: 30px;
+    }
+
+    .nav-link {
+      color: white !important;
+      margin-left: 1rem;
+    }
+
+    .nav-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar d-flex justify-content-between">
+    <a class="navbar-brand" href="{{ url_for('landing_page') }}">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+      Email Threat Detection AI
+    </a>
+    <div class="d-flex align-items-center">
+      <a href="{{ url_for('compare_model_vs_gmail') }}" class="nav-link">📊 Compare Predictions</a>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

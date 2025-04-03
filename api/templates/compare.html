@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Model vs Gmail Accuracy{% endblock %}
+
+{% block content %}
+<style>
+  .metric-card {
+    padding: 1rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .badge {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 8px;
+  }
+  .badge-true {
+    background-color: #28a745;
+    color: #fff;
+  }
+  .badge-false {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  .badge-neutral {
+    background-color: #6c757d;
+    color: #fff;
+  }
+</style>
+
+<h2 class="mb-4">📊 Model vs Gmail Spam Detection</h2>
+
+<!-- Chart -->
+<canvas id="metricsChart" class="mb-5" height="100"></canvas>
+
+<!-- Inject metrics data for JS -->
+<script id="metricsData" type="application/json">
+  {{ [metrics.accuracy, metrics.precision, metrics.recall, metrics.f1] | tojson }}
+</script>
+
+<!-- Metric Cards -->
+<div class="row mb-4">
+  <div class="col-md-3"><div class="metric-card">Accuracy<br><strong>{{ metrics.accuracy }}</strong></div></div>
+  <div class="col-md-3"><div class="metric-card">Precision<br><strong>{{ metrics.precision }}</strong></div></div>
+  <div class="col-md-3"><div class="metric-card">Recall<br><strong>{{ metrics.recall }}</strong></div></div>
+  <div class="col-md-3"><div class="metric-card">F1 Score<br><strong>{{ metrics.f1 }}</strong></div></div>
+</div>
+
+<!-- Filter toggle -->
+<div class="mb-3">
+  {% if filter_mismatches %}
+    <a href="{{ url_for('compare_model_vs_gmail', page=page) }}" class="btn btn-sm btn-outline-primary">Show All</a>
+  {% else %}
+    <a href="{{ url_for('compare_model_vs_gmail', page=page, filter='mismatch') }}" class="btn btn-sm btn-warning">Show Only Mismatches</a>
+  {% endif %}
+</div>
+
+<!-- Email Breakdown -->
+<h5>🧾 Email Breakdown</h5>
+<ul class="list-group mb-4">
+  {% for email in results %}
+    <li class="list-group-item">
+      <div class="d-flex justify-content-between">
+        <div>
+          <strong>{{ email.subject }}</strong><br>
+          <small>From: {{ email.from }} | {{ email.date }}</small>
+        </div>
+        <div class="text-end">
+          <span class="badge badge-neutral">{{ email.gmail_label }}</span>
+          {% if email.gmail_label == email.model_label %}
+            <span class="badge badge-true">Model: {{ email.model_label }}</span>
+          {% else %}
+            <span class="badge badge-false">Model: {{ email.model_label }}</span>
+          {% endif %}
+        </div>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-between">
+  {% if prev_page %}
+    <a href="{{ url_for('compare_model_vs_gmail', page=prev_page, filter='mismatch' if filter_mismatches else None) }}" class="btn btn-outline-secondary">← Previous</a>
+  {% else %}
+    <span></span>
+  {% endif %}
+
+  {% if next_page %}
+    <a href="{{ url_for('compare_model_vs_gmail', page=next_page, filter='mismatch' if filter_mismatches else None) }}" class="btn btn-outline-primary">Next →</a>
+  {% endif %}
+</div>
+
+<!-- Chart Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/compare_chart.js') }}"></script>
+{% endblock %}
